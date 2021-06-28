@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour{
     public GameObject bomb;
     float posX = 0;
     float posZ = 0;
-    void Start(){}
 
     void Update(){
         if(Input.GetKeyDown("space")){
@@ -51,9 +50,9 @@ public class GameManager : MonoBehaviour{
         float posZ2 = posZ - 1;
         float posX1 = posX + 1;
         float posX2 = posX - 1;
-        bool up = true;
-        bool down = true;
-        bool left = true;
+        bool up    = true;
+        bool down  = true;
+        bool left  = true;
         bool right = true;
         GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
 
@@ -65,14 +64,19 @@ public class GameManager : MonoBehaviour{
                 if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ2){
                     down = false;
                 }
-                if(rocks[x].transform.position.x == posX2 && rocks[x].transform.position.z == posZ){
-                    left = false;
-                }
                 if(rocks[x].transform.position.x == posX1 && rocks[x].transform.position.z == posZ){
                     right = false;
                 }
+                if(rocks[x].transform.position.x == posX2 && rocks[x].transform.position.z == posZ){
+                    left = false;
+                }
             }
         }
+        
+        if(posZ1 ==  7)    up = false;
+        if(posZ2 == -7)  down = false;
+        if(posX1 ==  7) right = false;
+        if(posX2 == -7)  left = false;
 
         if(up){
             GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ1), new Quaternion(0, 180, 0, 1));
@@ -83,17 +87,15 @@ public class GameManager : MonoBehaviour{
             Destroy(exp, 0.5f);
         }
         if(left){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX1, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX2, 1, posZ), new Quaternion(0, 180, 0, 1));
             Destroy(exp, 0.5f);
         }
         if(right){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX2, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX1, 1, posZ), new Quaternion(0, 180, 0, 1));
             Destroy(exp, 0.5f);
         }
 
         GameObject exp2 = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
         Destroy(exp2, 0.5f);
-
-
     }
 }
