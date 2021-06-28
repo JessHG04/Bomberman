@@ -12,11 +12,9 @@ public class PlayerMovement : MonoBehaviour{
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();
         anim = this.GetComponent<Animator>();
-        //Debug.Log("Start player");
     }
     
     void Update(){
-        //Debug.Log("Update player");
         RaycastHit hit;
         
         if(Input.GetMouseButtonDown(0)){
