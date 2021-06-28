@@ -7,14 +7,16 @@ public class PlayerMovement : MonoBehaviour{
     private NavMeshAgent agent;
     private Animator anim;
     public float Speed = 0.5f;
+    //public GameObject bomb;
+    
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();
         anim = this.GetComponent<Animator>();
-        Debug.Log("Start player");
+        //Debug.Log("Start player");
     }
     
     void Update(){
-        Debug.Log("Update player");
+        //Debug.Log("Update player");
         RaycastHit hit;
         
         if(Input.GetMouseButtonDown(0)){
@@ -36,8 +38,13 @@ public class PlayerMovement : MonoBehaviour{
         }else{
             Speed = 0.6f;
         }
-        
-        //Debug.Log(distance + " jej " + Speed);
+        //Debug.Log(distance + " " + Speed);
         anim.SetFloat ("Blend", Speed);
+
+        //Soltar bombas
+        /*if(Input.GetKeyDown("space")){
+            //Debug.Log("Space pressed");
+            Instantiate(bomb, agent.transform);
+        }*/
     }
 }

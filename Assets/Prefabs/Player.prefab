@@ -1998,6 +1998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0.5
+  bomb: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
 --- !u!1 &3921334144448749991
 GameObject:
   m_ObjectHideFlags: 0

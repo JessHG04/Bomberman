@@ -14494,6 +14494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df09743c19f528340a8cbd1adf1af374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bomb: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
+  position: {fileID: 1616973858}
 --- !u!4 &1237439350
 Transform:
   m_ObjectHideFlags: 0
