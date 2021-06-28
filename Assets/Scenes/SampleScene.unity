@@ -14495,7 +14495,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomb: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
-  position: {fileID: 1616973858}
 --- !u!4 &1237439350
 Transform:
   m_ObjectHideFlags: 0

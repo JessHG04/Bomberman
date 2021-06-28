@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class GameManager : MonoBehaviour{
     public GameObject bomb;
-    Transform posPlayer;
-    Vector3 pos;
     void Start(){
         //Debug.Log("Start game manager");
     }
@@ -16,9 +15,10 @@ public class GameManager : MonoBehaviour{
 
         if(Input.GetKeyDown("space")){
             //Debug.Log("Space pressed");
-            posPlayer = GameObject.Find("Player(Clone)").transform;
-            pos = new Vector3 (posPlayer.position.x, posPlayer.position.y, posPlayer.position.z);
-            GameObject clone = (GameObject) Instantiate(bomb, pos, Quaternion.identity);
+            Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+            float posX = (float)Math.Round(posPlayer.position.x);
+            float posZ = (float)Math.Round(posPlayer.position.z);
+            GameObject clone = (GameObject) Instantiate(bomb, new Vector3 (posX, 1, posZ), Quaternion.identity);
             Destroy(clone, 1.5f);
         }
         if(Input.GetKeyDown("p")){
