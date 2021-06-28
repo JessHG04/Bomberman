@@ -40,11 +40,5 @@ public class PlayerMovement : MonoBehaviour{
         }
         //Debug.Log(distance + " " + Speed);
         anim.SetFloat ("Blend", Speed);
-
-        //Soltar bombas
-        /*if(Input.GetKeyDown("space")){
-            //Debug.Log("Space pressed");
-            Instantiate(bomb, agent.transform);
-        }*/
     }
 }

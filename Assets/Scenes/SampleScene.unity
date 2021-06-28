@@ -869,7 +869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56812864}
   m_Layer: 0
-  m_Name: Borde
+  m_Name: Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3767,7 +3767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 250061768}
   m_Layer: 0
-  m_Name: Suelo
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22524,8 +22524,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2005940872}
   m_Layer: 0
-  m_Name: Piedra
-  m_TagString: Piedra
+  m_Name: Rocks
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

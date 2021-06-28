@@ -14,27 +14,36 @@ public class GameManager : MonoBehaviour{
         //Debug.Log(pos.position.x + " " + pos.position.z);
 
         if(Input.GetKeyDown("space")){
-            //Debug.Log("Space pressed");
             Transform posPlayer = GameObject.Find("Player(Clone)").transform;
             float posX = (float)Math.Round(posPlayer.position.x);
             float posZ = (float)Math.Round(posPlayer.position.z);
-
-            GameObject[] piedras = GameObject.FindGameObjectsWithTag("Piedra");
-            bool isRock = false;
-
-            for(int x = 0; x < piedras.Length && !isRock; x++){
-                if(piedras[x].transform.position.x == posX && piedras[x].transform.position.z == posZ){
-                    isRock = true;
+            GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
+            GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
+            bool occuped = false;
+            
+            if(rocks != null){
+                for(int x = 0; x < rocks.Length && !occuped; x++){
+                    if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ){
+                        occuped = true;
+                    }
+                }
+            }
+            
+            if(bombs != null){
+                for(int x = 0; x < bombs.Length && !occuped; x++){
+                    if(bombs[x].transform.position.x == posX && bombs[x].transform.position.z == posZ){
+                        occuped = true;
+                    }
                 }
             }
 
-            if(!isRock){
-                GameObject clone = (GameObject) Instantiate(bomb, new Vector3 (posX, 1, posZ), Quaternion.identity);
+            if(!occuped){
+                GameObject clone = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
                 Destroy(clone, 1.5f);
             }
         }
         if(Input.GetKeyDown("p")){
-            Debug.Log("P pressed");            
+
         }
     }
 }
