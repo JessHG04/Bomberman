@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour{
             //Debug.Log("Space pressed");
             posPlayer = GameObject.Find("Player(Clone)").transform;
             pos = new Vector3 (posPlayer.position.x, posPlayer.position.y, posPlayer.position.z);
-            Instantiate(bomb, pos, Quaternion.identity);
+            GameObject clone = (GameObject) Instantiate(bomb, pos, Quaternion.identity);
+            Destroy(clone, 1.5f);
         }
         if(Input.GetKeyDown("p")){
             Debug.Log("P pressed");            
