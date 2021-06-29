@@ -8,52 +8,59 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour{
     public GameObject bomb;
     public Canvas pause;
+    float timer = 60.0f;
     float posX = 0;
     float posZ = 0;
     bool dead = false;
 
     void Start() {
         pause.gameObject.SetActive(false);
+        timer = 60.0f;
     }
 
     void Update(){
-        if(!dead){
-            if(Input.GetKeyDown("space")){
-                Transform posPlayer = GameObject.Find("Player(Clone)").transform;
-                posX = (float)Math.Round(posPlayer.position.x);
-                posZ = (float)Math.Round(posPlayer.position.z);
-                GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
-                GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
-                bool occuped = false;
-                
-                if(rocks != null){
-                    for(int x = 0; x < rocks.Length && !occuped; x++){
-                        if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ){
-                            occuped = true;
-                        }
-                    }
-                }
-                
-                if(bombs != null){
-                    for(int x = 0; x < bombs.Length && !occuped; x++){
-                        if(bombs[x].transform.position.x == posX && bombs[x].transform.position.z == posZ){
-                            occuped = true;
-                        }
-                    }
-                }
-
-                if(!occuped){
-                    GameObject clone = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
-                    Invoke("explode", 1.5f);
-                    Destroy(clone, 1.5f);
-                }
-            }
-
-            if(Input.GetKeyDown("p")){
-                Pause();
-            }
-        }else{
+        if(timer <= 0.0f){
             SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+        }else{
+            timer -= Time.deltaTime;
+            if(!dead){
+                if(Input.GetKeyDown("space")){
+                    Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+                    posX = (float)Math.Round(posPlayer.position.x);
+                    posZ = (float)Math.Round(posPlayer.position.z);
+                    GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
+                    GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
+                    bool occuped = false;
+                    
+                    if(rocks != null){
+                        for(int x = 0; x < rocks.Length && !occuped; x++){
+                            if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ){
+                                occuped = true;
+                            }
+                        }
+                    }
+                    
+                    if(bombs != null){
+                        for(int x = 0; x < bombs.Length && !occuped; x++){
+                            if(bombs[x].transform.position.x == posX && bombs[x].transform.position.z == posZ){
+                                occuped = true;
+                            }
+                        }
+                    }
+
+                    if(!occuped){
+                        GameObject clone = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
+                        Invoke("explode", 1.5f);
+                        Destroy(clone, 1.5f);
+                    }
+                }
+
+                if(Input.GetKeyDown("p")){
+                    Pause();
+                }
+            }else{
+                SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+            }
         }
     }
 
