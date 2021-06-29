@@ -6,8 +6,13 @@ using System;
 
 public class GameManager : MonoBehaviour{
     public GameObject bomb;
+    public Canvas pause;
     float posX = 0;
     float posZ = 0;
+
+    void Start() {
+        pause.gameObject.SetActive(false);
+    }
 
     void Update(){
         if(Input.GetKeyDown("space")){
@@ -40,8 +45,9 @@ public class GameManager : MonoBehaviour{
                 Destroy(clone, 1.5f);
             }
         }
-        if(Input.GetKeyDown("p")){
 
+        if(Input.GetKeyDown("p")){
+            Pause();
         }
     }
 
@@ -97,5 +103,16 @@ public class GameManager : MonoBehaviour{
 
         GameObject exp2 = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
         Destroy(exp2, 0.5f);
+    }
+
+    void Pause(){
+        //Debug.Log("Pause");
+        if(Time.timeScale == 1){
+            Time.timeScale = 0;
+            pause.gameObject.SetActive(true);
+        }else if(Time.timeScale == 0){
+            Time.timeScale = 1;
+            pause.gameObject.SetActive(false);
+        }
     }
 }
