@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour{
         if(timer <= 0.0f){
             SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
         }else{
+            Debug.Log(timer);
             timer -= Time.deltaTime;
             if(!dead){
                 if(Input.GetKeyDown("space")){
