@@ -12,17 +12,20 @@ public class GameManager : MonoBehaviour{
     float posX = 0;
     float posZ = 0;
     bool dead = false;
+    AudioSource[] audios;
 
     void Start() {
         pause.gameObject.SetActive(false);
         timer = 60.0f;
+        audios = GetComponents<AudioSource>();
+        audios[0].Play();
     }
 
     void Update(){
         if(timer <= 0.0f){
             SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
         }else{
-            Debug.Log(timer);
+            //Debug.Log(timer);
             timer -= Time.deltaTime;
             if(!dead){
                 if(Input.GetKeyDown("space")){
@@ -76,6 +79,8 @@ public class GameManager : MonoBehaviour{
         bool right = true;
         GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
 
+        audios[1].Play();
+
         if(rocks != null){
             for(int x = 0; x < rocks.Length; x++){
                 if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ1){
@@ -125,13 +130,14 @@ public class GameManager : MonoBehaviour{
     }
 
     void Pause(){
-        //Debug.Log("Pause");
         if(Time.timeScale == 1){
             Time.timeScale = 0;
             pause.gameObject.SetActive(true);
+            //main.Stop();
         }else if(Time.timeScale == 0){
             Time.timeScale = 1;
             pause.gameObject.SetActive(false);
+            //main.Play();
         }
     }
 
