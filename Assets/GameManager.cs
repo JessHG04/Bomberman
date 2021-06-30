@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour{
     float posX = 0;
     float posZ = 0;
     bool dead = false;
+    bool play = true;
     AudioSource[] audios;
 
     void Start() {
@@ -79,7 +80,9 @@ public class GameManager : MonoBehaviour{
         bool right = true;
         GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
 
-        audios[1].Play();
+        if(play){
+            audios[1].Play();
+        }
 
         if(rocks != null){
             for(int x = 0; x < rocks.Length; x++){
@@ -129,18 +132,6 @@ public class GameManager : MonoBehaviour{
         Destroy(exp2, 0.5f);
     }
 
-    void Pause(){
-        if(Time.timeScale == 1){
-            Time.timeScale = 0;
-            pause.gameObject.SetActive(true);
-            //main.Stop();
-        }else if(Time.timeScale == 0){
-            Time.timeScale = 1;
-            pause.gameObject.SetActive(false);
-            //main.Play();
-        }
-    }
-
     void checkExplosion(float X, float Z){
         Transform posPlayer = GameObject.Find("Player(Clone)").transform;
         float playerX = (float)Math.Round(posPlayer.position.x);
@@ -149,5 +140,34 @@ public class GameManager : MonoBehaviour{
         if(playerX == X && playerZ == Z){
             dead = true;
         }
+    }
+
+    void Pause(){
+        if(Time.timeScale == 1){
+            Time.timeScale = 0;
+            pause.gameObject.SetActive(true);
+        }else if(Time.timeScale == 0){
+            Time.timeScale = 1;
+            pause.gameObject.SetActive(false);
+        }
+    }
+
+    public void aud(){
+        play = !play;
+        if(play){
+            audios[0].Play();
+        }else{
+            audios[0].Stop();
+        }
+    }
+
+    public void restart(){
+        Time.timeScale = 1;
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
+
+    public void backToMenu(){
+        Time.timeScale = 1;
+        SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
     }
 }

@@ -13,20 +13,4 @@ public class MenuManager : MonoBehaviour{
         //Debug.Log("Quit");
         Application.Quit();        
     }
-
-    public void aud(){
-        Debug.Log("Audio");
-    }
-
-    public void restart(){
-        //Debug.Log("Restart");
-        Time.timeScale = 1;
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
-    }
-
-    public void backToMenu(){
-        //Debug.Log("Back");
-        Time.timeScale = 1;
-        SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
-    }
 }
