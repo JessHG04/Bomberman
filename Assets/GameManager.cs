@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour{
     public GameObject bomb;
+    public GameObject fire;
     public Canvas pause;
     float timer = 60.0f;
     float posX = 0;
@@ -16,8 +17,8 @@ public class GameManager : MonoBehaviour{
     AudioSource[] audios;
 
     void Start() {
-        pause.gameObject.SetActive(false);
         timer = 60.0f;
+        pause.gameObject.SetActive(false);
         audios = GetComponents<AudioSource>();
         audios[0].Play();
     }
@@ -74,10 +75,10 @@ public class GameManager : MonoBehaviour{
         float posZ2 = posZ - 1;
         float posX1 = posX + 1;
         float posX2 = posX - 1;
-        bool up    = true;
-        bool down  = true;
-        bool left  = true;
-        bool right = true;
+        bool up     = true;
+        bool down   = true;
+        bool left   = true;
+        bool right  = true;
         GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
 
         if(play){
@@ -107,27 +108,27 @@ public class GameManager : MonoBehaviour{
         if(posX2 == -7)  left = false;
 
         if(up){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ1), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ1), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX, posZ1);
             Destroy(exp, 0.5f);
         }
         if(down){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ2), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ2), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX, posZ2);
             Destroy(exp, 0.5f);
         }
         if(left){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX2, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX2, 1, posZ), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX2, posZ);
             Destroy(exp, 0.5f);
         }
         if(right){
-            GameObject exp = (GameObject) Instantiate(bomb, new Vector3(posX1, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX1, 1, posZ), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX1, posZ);
             Destroy(exp, 0.5f);
         }
 
-        GameObject exp2 = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
+        GameObject exp2 = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
         checkExplosion(posX, posZ);
         Destroy(exp2, 0.5f);
     }

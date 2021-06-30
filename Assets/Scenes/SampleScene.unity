@@ -14865,6 +14865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomb: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
+  fire: {fileID: 1901245927194888, guid: affcb78018ee2404b825251686a86957, type: 3}
   pause: {fileID: 1232125640}
 --- !u!4 &1237439350
 Transform:
