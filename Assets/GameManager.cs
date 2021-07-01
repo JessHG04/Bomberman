@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour{
     public GameObject bomb;
@@ -12,17 +13,20 @@ public class GameManager : MonoBehaviour{
     public float timer = 60.0f;
     float posX = 0;
     float posZ = 0;
+    int distance = 2;
     bool dead = false;
     bool play = true;
     AudioSource[] audios;
     public int score = 0;
-
+    public List<GameObject> boxs = new List<GameObject>();
     void Start() {
         timer = 60.0f;
         pause.gameObject.SetActive(false);
         audios = GetComponents<AudioSource>();
         audios[0].Play();
         score = 0;
+        distance = 2;
+        boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
     }
 
     void Update(){
@@ -36,18 +40,9 @@ public class GameManager : MonoBehaviour{
                     Transform posPlayer = GameObject.Find("Player(Clone)").transform;
                     posX = (float)Math.Round(posPlayer.position.x);
                     posZ = (float)Math.Round(posPlayer.position.z);
-                    GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
                     GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
                     bool occuped = false;
-                    
-                    if(rocks != null){
-                        for(int x = 0; x < rocks.Length && !occuped; x++){
-                            if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ){
-                                occuped = true;
-                            }
-                        }
-                    }
-                    
+                    //No pongo 2 bombas en el mismo sitio
                     if(bombs != null){
                         for(int x = 0; x < bombs.Length && !occuped; x++){
                             if(bombs[x].transform.position.x == posX && bombs[x].transform.position.z == posZ){
@@ -58,12 +53,11 @@ public class GameManager : MonoBehaviour{
 
                     if(!occuped){
                         GameObject clone = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
-                        Invoke("destroyBox", 1.5f);
                         Invoke("explode", 1.5f);
                         Destroy(clone, 1.5f);
                     }
                 }
-
+                boxs = GameObject.FindGameObjectsWithTag("Box").ToList();                
                 if(Input.GetKeyDown("p")){
                     Pause();
                 }
@@ -73,93 +67,89 @@ public class GameManager : MonoBehaviour{
         }
     }
 
-    void destroyBox(){
-        float posZ1 = posZ + 1;
-        float posZ2 = posZ - 1;
-        float posX1 = posX + 1;
-        float posX2 = posX - 1;
-        GameObject[] boxs = GameObject.FindGameObjectsWithTag("Box");
-
-        if(boxs != null){
-            for(int x = 0; x < boxs.Length; x++){
-                if(boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ1){
-                    Destroy(boxs[x]);
-                    score += 100;
-                }
-                if(boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ2){
-                    Destroy(boxs[x]);
-                    score += 100;
-                }
-                if(boxs[x].transform.position.x == posX1 && boxs[x].transform.position.z == posZ){
-                    Destroy(boxs[x]);
-                    score += 100;
-                }
-                if(boxs[x].transform.position.x == posX2 && boxs[x].transform.position.z == posZ){
-                    Destroy(boxs[x]);
-                    score += 100;
-                }
-            }
-        }
-    }
-
     void explode(){
-        float posZ1 = posZ + 1;
-        float posZ2 = posZ - 1;
-        float posX1 = posX + 1;
-        float posX2 = posX - 1;
-        bool up     = true;
-        bool down   = true;
-        bool left   = true;
-        bool right  = true;
-        GameObject[] rocks = GameObject.FindGameObjectsWithTag("Rock");
+        int aux = 1;
+        bool up    = true;
+        bool down  = true;
+        bool right = true;
+        bool left  = true;
 
         if(play){
             audios[1].Play();
         }
 
-        if(rocks != null){
-            for(int x = 0; x < rocks.Length; x++){
-                if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ1){
-                    up = false;
-                }
-                if(rocks[x].transform.position.x == posX && rocks[x].transform.position.z == posZ2){
-                    down = false;
-                }
-                if(rocks[x].transform.position.x == posX1 && rocks[x].transform.position.z == posZ){
-                    right = false;
-                }
-                if(rocks[x].transform.position.x == posX2 && rocks[x].transform.position.z == posZ){
-                    left = false;
+        while(aux != distance + 1){
+            float posZ1 = posZ + aux;
+            float posZ2 = posZ - aux;
+            float posX1 = posX + aux;
+            float posX2 = posX - aux;
+
+            if(boxs != null){
+                for(int x = 0; x < boxs.Count; x++){
+                    //UP
+                    if(up && boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ1){ //Puedo mirar arriba y hay algo ahí
+                        if(boxs[x].TryGetComponent(out Wall rock)){ //Si es roca dejo de mirar
+                            up = false;
+                        }else{ //Si no, es caja, la destruyo
+                            Destroy(boxs[x]);
+                            score += 100;
+                        }
+                        
+                    }
+                    if(up){ //Si arriba no hay roca, creo la explosion y la compruebo
+                        GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ1), new Quaternion(0, 180, 0, 1));
+                        checkExplosion(posX, posZ1);
+                        Destroy(exp, 0.5f);
+                    }
+                    //DOWN
+                    if(down && boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ2){
+                        if(boxs[x].TryGetComponent(out Wall rock)){
+                            down = false;
+                        }else{
+                            Destroy(boxs[x]);
+                            score += 100;
+                        }
+                        
+                    }
+                    if(down){
+                        GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ2), new Quaternion(0, 180, 0, 1));
+                        checkExplosion(posX, posZ2);
+                        Destroy(exp, 0.5f);
+                    }
+                    //RIGHT
+                    if(right && boxs[x].transform.position.x == posX1 && boxs[x].transform.position.z == posZ){
+                        if(boxs[x].TryGetComponent(out Wall rock)){
+                            right = false;
+                        }else{
+                            Destroy(boxs[x]);
+                            score += 100;
+                        }
+                        
+                    }
+                    if(right){
+                        GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX1, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
+                        checkExplosion(posX1, posZ);
+                        Destroy(exp, 0.5f);
+                    }
+                    //LEFT
+                    if(left && boxs[x].transform.position.x == posX2 && boxs[x].transform.position.z == posZ){
+                        if(boxs[x].TryGetComponent(out Wall rock)){
+                            left = false;
+                        }else{
+                            Destroy(boxs[x]);
+                            score += 100;
+                        }
+                    }
+                    if(left){
+                        GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX2, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
+                        checkExplosion(posX2, posZ);
+                        Destroy(exp, 0.5f);
+                    }
                 }
             }
+            aux++;
         }
-        
-        if(posZ1 ==  7)    up = false;
-        if(posZ2 == -7)  down = false;
-        if(posX1 ==  7) right = false;
-        if(posX2 == -7)  left = false;
-
-        if(up){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ1), new Quaternion(0, 180, 0, 1));
-            checkExplosion(posX, posZ1);
-            Destroy(exp, 0.5f);
-        }
-        if(down){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ2), new Quaternion(0, 180, 0, 1));
-            checkExplosion(posX, posZ2);
-            Destroy(exp, 0.5f);
-        }
-        if(left){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX2, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
-            checkExplosion(posX2, posZ);
-            Destroy(exp, 0.5f);
-        }
-        if(right){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX1, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
-            checkExplosion(posX1, posZ);
-            Destroy(exp, 0.5f);
-        }
-
+        //Explosion central
         GameObject exp2 = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
         checkExplosion(posX, posZ);
         Destroy(exp2, 0.5f);
