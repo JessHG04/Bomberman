@@ -9,13 +9,13 @@ public class GameManager : MonoBehaviour{
     public GameObject bomb;
     public GameObject fire;
     public Canvas pause;
-    float timer = 60.0f;
+    public float timer = 60.0f;
     float posX = 0;
     float posZ = 0;
     bool dead = false;
     bool play = true;
     AudioSource[] audios;
-    int score = 0;
+    public int score = 0;
 
     void Start() {
         timer = 60.0f;

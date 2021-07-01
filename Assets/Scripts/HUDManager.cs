@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour{
-    Text time;
-    float timerHUD = 60.0f;
+    Text text;
 
     void Start() {
-        time = GetComponent<Text>();
-        timerHUD = 60.0f;
+        text = GetComponent<Text>();
     }
 
     void Update() {
-        int timerAux = (int)timerHUD;
-        time.text = "TIME: " + timerAux.ToString();
-        
-        timerHUD -= Time.deltaTime;
+        if(text.name == "Time"){
+            text.text = "TIME: " + ((int)GameObject.Find("GameManager").GetComponent<GameManager>().timer).ToString();
+        }else if(text.name == "Score"){
+            text.text = "SCORE: " + GameObject.Find("GameManager").GetComponent<GameManager>().score.ToString();
+        }
     }
 }
