@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour{
     bool dead = false;
     bool play = true;
     AudioSource[] audios;
+    int score = 0;
 
     void Start() {
         timer = 60.0f;
         pause.gameObject.SetActive(false);
         audios = GetComponents<AudioSource>();
         audios[0].Play();
+        score = 0;
     }
 
     void Update(){
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour{
 
                     if(!occuped){
                         GameObject clone = (GameObject) Instantiate(bomb, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
+                        Invoke("destroyBox", 1.5f);
                         Invoke("explode", 1.5f);
                         Destroy(clone, 1.5f);
                     }
@@ -66,6 +69,35 @@ public class GameManager : MonoBehaviour{
                 }
             }else{
                 SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+            }
+        }
+    }
+
+    void destroyBox(){
+        float posZ1 = posZ + 1;
+        float posZ2 = posZ - 1;
+        float posX1 = posX + 1;
+        float posX2 = posX - 1;
+        GameObject[] boxs = GameObject.FindGameObjectsWithTag("Box");
+
+        if(boxs != null){
+            for(int x = 0; x < boxs.Length; x++){
+                if(boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ1){
+                    Destroy(boxs[x]);
+                    score += 100;
+                }
+                if(boxs[x].transform.position.x == posX && boxs[x].transform.position.z == posZ2){
+                    Destroy(boxs[x]);
+                    score += 100;
+                }
+                if(boxs[x].transform.position.x == posX1 && boxs[x].transform.position.z == posZ){
+                    Destroy(boxs[x]);
+                    score += 100;
+                }
+                if(boxs[x].transform.position.x == posX2 && boxs[x].transform.position.z == posZ){
+                    Destroy(boxs[x]);
+                    score += 100;
+                }
             }
         }
     }
