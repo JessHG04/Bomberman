@@ -140,27 +140,27 @@ public class GameManager : MonoBehaviour{
         if(posX2 == -7)  left = false;
 
         if(up){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ1), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ1), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX, posZ1);
             Destroy(exp, 0.5f);
         }
         if(down){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ2), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ2), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX, posZ2);
             Destroy(exp, 0.5f);
         }
         if(left){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX2, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX2, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX2, posZ);
             Destroy(exp, 0.5f);
         }
         if(right){
-            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX1, 1, posZ), new Quaternion(0, 180, 0, 1));
+            GameObject exp = (GameObject) Instantiate(fire, new Vector3(posX1, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
             checkExplosion(posX1, posZ);
             Destroy(exp, 0.5f);
         }
 
-        GameObject exp2 = (GameObject) Instantiate(fire, new Vector3(posX, 1, posZ), new Quaternion(0, 180, 0, 1));
+        GameObject exp2 = (GameObject) Instantiate(fire, new Vector3(posX, 1.5f, posZ), new Quaternion(0, 180, 0, 1));
         checkExplosion(posX, posZ);
         Destroy(exp2, 0.5f);
     }
