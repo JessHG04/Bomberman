@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerEyes
-  - Rock
   - Bomb
   - Box
+  - PowerUp
   layers:
   - Default
   - TransparentFX

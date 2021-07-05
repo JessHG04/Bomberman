@@ -13,20 +13,24 @@ public class GameManager : MonoBehaviour{
     public float timer = 60.0f;
     float posX = 0;
     float posZ = 0;
-    int distance = 2;
+    int distance = 1;
     bool dead = false;
     bool play = true;
     AudioSource[] audios;
     public int score = 0;
-    public List<GameObject> boxs = new List<GameObject>();
+    List<GameObject> boxs = new List<GameObject>();
+    public List<GameObject> powerUps = new List<GameObject>();
     void Start() {
         timer = 60.0f;
         pause.gameObject.SetActive(false);
         audios = GetComponents<AudioSource>();
         audios[0].Play();
         score = 0;
-        distance = 2;
+        distance = 1;
         boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
+        powerUps = GameObject.FindGameObjectsWithTag("PowerUp").ToList();
+        powerUps[0].SetActive(false); //Abajo
+        powerUps[1].SetActive(false); //Arriba
     }
 
     void Update(){
@@ -57,7 +61,9 @@ public class GameManager : MonoBehaviour{
                         Destroy(clone, 1.5f);
                     }
                 }
-                boxs = GameObject.FindGameObjectsWithTag("Box").ToList();                
+                boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
+                UpdatePowerUps();
+                RandomBomb();
                 if(Input.GetKeyDown("p")){
                     Pause();
                 }
@@ -163,6 +169,37 @@ public class GameManager : MonoBehaviour{
         if(playerX == X && playerZ == Z){
             dead = true;
         }
+    }
+
+    void UpdatePowerUps(){
+        if(powerUps.Count != 0){
+            Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+            float playerX = (float)Math.Round(posPlayer.position.x);
+            float playerZ = (float)Math.Round(posPlayer.position.z);
+
+            if((int)timer == 50){
+                powerUps[0].SetActive(true);
+            }
+            if((int)timer == 30){
+                powerUps[1].SetActive(true);
+            }
+            if(powerUps[0] != null && powerUps[0].activeSelf){
+                if(playerX == 0 && playerZ == -2){ //Posicion de donde esta el power Up
+                    distance++;
+                    Destroy(powerUps[0]);
+                }
+            }
+            if(powerUps[1] != null && powerUps[1].activeSelf){
+                if(posX == 0 && posZ == 2){
+                    distance++;
+                    Destroy(powerUps[1]);
+                }
+            }
+        }
+    }
+
+    void RandomBomb(){
+        
     }
 
     void Pause(){
