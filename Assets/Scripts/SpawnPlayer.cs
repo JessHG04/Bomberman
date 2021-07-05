@@ -12,8 +12,4 @@ public class SpawnPlayer : MonoBehaviour{
         
         Instantiate(player, position);
     }
-
-    void Update()
-    {
-    }
 }

@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour{
     private NavMeshAgent agent;
     private Animator anim;
     public float Speed = 0.5f;
-    //public GameObject bomb;
     
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();
