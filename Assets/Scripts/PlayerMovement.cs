@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour{
     private NavMeshAgent agent;
     private Animator anim;
-    public float Speed = 0.5f;
+    public float Speed = 0.7f;
     
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();
@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour{
         if(Input.GetMouseButtonDown(0)){
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)){
                 agent.destination = hit.point;
-                Speed = 0.6f;
+                Speed = 0.7f;
             }else{
                 Speed = 0f;
             }
@@ -31,9 +31,9 @@ public class PlayerMovement : MonoBehaviour{
         if(distance == 0f){
             Speed = 0f;
         }else if(distance <= 5f){
-            Speed = 0.3f;
+            Speed = 0.4f;
         }else{
-            Speed = 0.6f;
+            Speed = 0.7f;
         }
         //Debug.Log(distance + " " + Speed);
         anim.SetFloat ("Blend", Speed);

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour{
     AudioSource[] audios;
     public int score = 0;
     List<GameObject> boxs = new List<GameObject>();
-    public List<GameObject> powerUps = new List<GameObject>();
+    List<GameObject> powerUps = new List<GameObject>();
     bool random = false;
     void Start() {
         timer = 60.0f;
