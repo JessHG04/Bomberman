@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour{
     public GameObject fire;
     public Canvas pause;
     public float timer = 60.0f;
-    int distance = 1;
+    public int distance = 1;
     bool dead = false;
     bool play = true;
     AudioSource[] audios;
@@ -197,13 +197,13 @@ public class GameManager : MonoBehaviour{
             }
 
             if(powerUps[0] != null && powerUps[0].activeSelf){
-                if(playerX == 0 && playerZ == -2){ //Posicion de donde esta el power Up
+                if(playerX == 0 && playerZ == (powerUps[0].GetComponent<Transform>().position.z) + 2){ //Posicion de donde esta el power Up
                     distance++;
                     Destroy(powerUps[0]);
                 }
             }
             if(powerUps[1] != null && powerUps[1].activeSelf){
-                if(playerX == 0 && playerZ == 2){
+                if(playerX == 0 && playerZ == (powerUps[1].GetComponent<Transform>().position.z) + 2){
                     distance++;
                     Destroy(powerUps[1]);
                 }

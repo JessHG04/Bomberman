@@ -21,7 +21,6 @@ public class MenuManager : MonoBehaviour{
 
     public void contr(){
         initial.gameObject.SetActive(false);
-        //button.GetComponent<Animator>().SetTrigger("Normal");
         controls.gameObject.SetActive(true);
     }
 
