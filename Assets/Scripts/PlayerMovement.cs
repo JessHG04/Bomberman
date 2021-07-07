@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour{
         
         if(Input.GetMouseButtonDown(0)){
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)){
-                agent.destination = hit.point;
+                agent.SetDestination(hit.point);
                 Speed = 0.6f;
             }else{
                 Speed = 0f;

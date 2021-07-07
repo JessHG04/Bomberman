@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour{
     public GameObject bomb;
     public GameObject fire;
     public Canvas pause;
+    public Canvas win;
+    public Canvas lose;
     public float timer = 60.0f;
     public int distance = 1;
     bool dead = false;
@@ -19,10 +21,13 @@ public class GameManager : MonoBehaviour{
     public int score = 0;
     List<GameObject> boxs = new List<GameObject>();
     List<GameObject> powerUps = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
     bool random = false;
     void Start() {
         timer = 60.0f;
         pause.gameObject.SetActive(false);
+        win.gameObject.SetActive(false);
+        lose.gameObject.SetActive(false);
         audios = GetComponents<AudioSource>();
         audios[0].Play();
         score = 0;
@@ -31,16 +36,19 @@ public class GameManager : MonoBehaviour{
         powerUps = GameObject.FindGameObjectsWithTag("PowerUp").ToList();
         powerUps[0].SetActive(false);
         powerUps[1].SetActive(false);
+        
     }
 
     void Update(){
         if(timer <= 0.0f){
-            SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+            win.gameObject.SetActive(true);
+            Invoke("goMenu", 0.5f);
         }else{
             timer -= Time.deltaTime;
-            if(!dead){
+            enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+            if(!dead && enemies.Count > 0){
                 if(Input.GetKeyDown("space")){
-                    Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+                    Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
                     float bombX = (float)Math.Round(posPlayer.position.x);
                     float bombZ = (float)Math.Round(posPlayer.position.z);
                     GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
@@ -68,9 +76,25 @@ public class GameManager : MonoBehaviour{
                     Pause();
                 }
             }else{
-                SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+                if(dead){
+                    lose.gameObject.SetActive(true);
+                }
+                if(enemies.Count <= 0){
+                    win.gameObject.SetActive(true);
+                }
+                Invoke("goMenu", 2.0f);
             }
         }
+    }
+
+    void goMenu(){
+        SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
+    }
+
+    public void enemyBomb(float bombX, float bombZ){
+        GameObject b = (GameObject) Instantiate(bomb, new Vector3(bombX, 1, bombZ), new Quaternion(0, 180, 0, 1));
+        StartCoroutine(explode(bombX, bombZ, true));
+        Destroy(b, 1.5f);
     }
 
     IEnumerator explode(float bombX, float bombZ, bool rand){
@@ -108,6 +132,7 @@ public class GameManager : MonoBehaviour{
                     if(up){ //Si arriba no hay roca, creo la explosion y la compruebo
                         GameObject exp = (GameObject) Instantiate(fire, new Vector3(bombX, 1.5f, bombZ1), new Quaternion(0, 180, 0, 1));
                         checkExplosion(bombX, bombZ1);
+                        if(!rand) checkExplosionEnemy(bombX, bombZ1);
                         Destroy(exp, 0.5f);
                     }
                     //DOWN
@@ -167,13 +192,12 @@ public class GameManager : MonoBehaviour{
         Destroy(exp2, 0.5f);
 
         if(rand){
-            yield return new WaitForSeconds(5f);
-            random = false;
+            Invoke("randomAgain", 5.0f);
         }
     }
 
     void checkExplosion(float X, float Z){
-        Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+        Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
         float playerX = (float)Math.Round(posPlayer.position.x);
         float playerZ = (float)Math.Round(posPlayer.position.z);
 
@@ -182,9 +206,22 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    void checkExplosionEnemy(float X, float Z){
+        for(int x = 0; x < enemies.Count; x++){
+            if(enemies[x] != null){
+                float enemyX = (float)Math.Round(enemies[x].transform.position.x);
+                float enemyZ = (float)Math.Round(enemies[x].transform.position.z);
+
+                if(enemyX == X && enemyZ == Z){
+                    Destroy(enemies[x]);
+                }
+            }
+        }
+    }
+
     void UpdatePowerUps(){
         if(powerUps.Count != 0){
-            Transform posPlayer = GameObject.Find("Player(Clone)").transform;
+            Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
             float playerX = (float)Math.Round(posPlayer.position.x);
             float playerZ = (float)Math.Round(posPlayer.position.z);
 
@@ -210,9 +247,13 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    void randomAgain(){
+        random = false;
+    }
+
     void RandomBomb(){
         boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
-        int num = Random.Range(0, 10);
+        int num = Random.Range(0, 100);
         int randX = Random.Range(-11, 11);
         int randZ = Random.Range(-6, 6);
         bool occuped = false;

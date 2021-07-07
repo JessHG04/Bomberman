@@ -8,6 +8,7 @@ TagManager:
   - Bomb
   - Box
   - PowerUp
+  - Enemy
   layers:
   - Default
   - TransparentFX

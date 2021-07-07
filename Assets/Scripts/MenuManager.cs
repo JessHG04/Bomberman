@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour{
     public Canvas initial;
     public Canvas controls;
-
     public Button button;
 
     void Start(){
