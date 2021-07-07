@@ -2546,7 +2546,7 @@ GameObject:
   - component: {fileID: 4431084402279646}
   - component: {fileID: 95320324289322388}
   m_Layer: 0
-  m_Name: robotSphere
+  m_Name: Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

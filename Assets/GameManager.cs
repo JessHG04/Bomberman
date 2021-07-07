@@ -29,15 +29,14 @@ public class GameManager : MonoBehaviour{
         distance = 1;
         boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
         powerUps = GameObject.FindGameObjectsWithTag("PowerUp").ToList();
-        powerUps[0].SetActive(false); //Abajo
-        powerUps[1].SetActive(false); //Arriba
+        powerUps[0].SetActive(false);
+        powerUps[1].SetActive(false);
     }
 
     void Update(){
         if(timer <= 0.0f){
             SceneManager.LoadScene("InitialScene", LoadSceneMode.Single);
         }else{
-            //Debug.Log(timer);
             timer -= Time.deltaTime;
             if(!dead){
                 if(Input.GetKeyDown("space")){
