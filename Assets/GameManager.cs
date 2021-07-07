@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour{
                     if(down){
                         GameObject exp = (GameObject) Instantiate(fire, new Vector3(bombX, 1.5f, bombZ2), new Quaternion(0, 180, 0, 1));
                         checkExplosion(bombX, bombZ2);
+                        if(!rand) checkExplosionEnemy(bombX, bombZ2);
                         Destroy(exp, 0.5f);
                     }
                     //RIGHT
@@ -163,6 +164,7 @@ public class GameManager : MonoBehaviour{
                     if(right){
                         GameObject exp = (GameObject) Instantiate(fire, new Vector3(bombX1, 1.5f, bombZ), new Quaternion(0, 180, 0, 1));
                         checkExplosion(bombX1, bombZ);
+                        if(!rand) checkExplosionEnemy(bombX1, bombZ);
                         Destroy(exp, 0.5f);
                     }
                     //LEFT
@@ -177,6 +179,7 @@ public class GameManager : MonoBehaviour{
                     if(left){
                         GameObject exp = (GameObject) Instantiate(fire, new Vector3(bombX2, 1.5f, bombZ), new Quaternion(0, 180, 0, 1));
                         checkExplosion(bombX2, bombZ);
+                        if(!rand) checkExplosionEnemy(bombX, bombZ1);
                         Destroy(exp, 0.5f);
                     }
                 }
@@ -190,10 +193,6 @@ public class GameManager : MonoBehaviour{
         GameObject exp2 = (GameObject) Instantiate(fire, new Vector3(bombX, 1.5f, bombZ), new Quaternion(0, 180, 0, 1));
         checkExplosion(bombX, bombZ);
         Destroy(exp2, 0.5f);
-
-        if(rand){
-            Invoke("randomAgain", 5.0f);
-        }
     }
 
     void checkExplosion(float X, float Z){
@@ -272,6 +271,7 @@ public class GameManager : MonoBehaviour{
                 GameObject clone = (GameObject) Instantiate(bomb, new Vector3(randX, 1, randZ), new Quaternion(0, 180, 0, 1));
                 StartCoroutine(explode(randX, randZ, true));
                 Destroy(clone, 1.5f);
+                Invoke("randomAgain", 5f);
             }
         }
     }
