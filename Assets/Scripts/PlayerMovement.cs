@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour{
     private Animator anim;
     public float Speed = 0.5f;
     
+    
+    
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();
         anim = this.GetComponent<Animator>();
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour{
         }else{
             Speed = 0.6f;
         }
-        //Debug.Log(distance + " " + Speed);
+        //Debug.Log(bombRadius + " " + Speed);
         anim.SetFloat ("Blend", Speed);
     }
 }

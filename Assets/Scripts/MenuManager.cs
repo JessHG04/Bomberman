@@ -13,22 +13,22 @@ public class MenuManager : MonoBehaviour{
         controls.gameObject.SetActive(false);
         button = GameObject.FindGameObjectWithTag("Bomb").GetComponent<Button>();
     }
-    public void play(){
+    public void StartGame(){
         //Debug.Log("Play");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 
-    public void contr(){
+    public void OpenControlsPanel(){
         initial.gameObject.SetActive(false);
         controls.gameObject.SetActive(true);
     }
 
-    public void back(){
+    public void BackFromControlPanel(){
         controls.gameObject.SetActive(false);
         initial.gameObject.SetActive(true);
     }
 
-    public void quit(){
+    public void QuitGame(){
         //Debug.Log("Quit");
         Application.Quit();        
     }
