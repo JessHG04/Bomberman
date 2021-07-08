@@ -28601,7 +28601,7 @@ MonoBehaviour:
   lose: {fileID: 980099384}
   timer: 60
   distance: 1
-  score: -316
+  score: 0
   enemies: []
 --- !u!4 &1237439350
 Transform:

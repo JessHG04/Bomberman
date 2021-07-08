@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour{
             enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
             if(!dead && enemies.Count > 0){
                 if(Input.GetKeyDown("space")){
-                    Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+                    Transform posPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
                     float bombX = (float)Math.Round(posPlayer.position.x);
                     float bombZ = (float)Math.Round(posPlayer.position.z);
                     GameObject[] bombs = GameObject.FindGameObjectsWithTag("Bomb");
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour{
                     //No pongo 2 bombas en el mismo sitio
                     if(bombs != null){
                         for(int x = 0; x < bombs.Length && !occuped; x++){
-                            if(bombs[x].transform.position.x == bombX && bombs[x].transform.position.z == bombZ){
+                            if(bombs[x].GetComponent<Transform>().position.x == bombX && bombs[x].GetComponent<Transform>().position.z == bombZ){
                                 occuped = true;
                             }
                         }
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour{
             if(boxs != null){
                 for(int x = 0; x < boxs.Count; x++){
                     //UP
-                    if(up && boxs[x].transform.position.x == bombX && boxs[x].transform.position.z == bombZ1){ //Puedo mirar arriba y hay algo ahí
+                    if(up && boxs[x].GetComponent<Transform>().position.x == bombX && boxs[x].GetComponent<Transform>().position.z == bombZ1){ //Puedo mirar arriba y hay algo ahí
                         if(boxs[x].TryGetComponent(out Wall rock)){ //Si es roca dejo de mirar
                             up = false;
                         }else{ //Si no, es caja, la destruyo
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour{
                         Destroy(exp, 0.5f);
                     }
                     //DOWN
-                    if(down && boxs[x].transform.position.x == bombX && boxs[x].transform.position.z == bombZ2){
+                    if(down && boxs[x].GetComponent<Transform>().position.x == bombX && boxs[x].GetComponent<Transform>().position.z == bombZ2){
                         if(boxs[x].TryGetComponent(out Wall rock)){
                             down = false;
                         }else{
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour{
                         Destroy(exp, 0.5f);
                     }
                     //RIGHT
-                    if(right && boxs[x].transform.position.x == bombX1 && boxs[x].transform.position.z == bombZ){
+                    if(right && boxs[x].GetComponent<Transform>().position.x == bombX1 && boxs[x].GetComponent<Transform>().position.z == bombZ){
                         if(boxs[x].TryGetComponent(out Wall rock)){
                             right = false;
                         }else{
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour{
                         Destroy(exp, 0.5f);
                     }
                     //LEFT
-                    if(left && boxs[x].transform.position.x == bombX2 && boxs[x].transform.position.z == bombZ){
+                    if(left && boxs[x].GetComponent<Transform>().position.x == bombX2 && boxs[x].GetComponent<Transform>().position.z == bombZ){
                         if(boxs[x].TryGetComponent(out Wall rock)){
                             left = false;
                         }else{
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour{
     }
 
     void checkExplosion(float X, float Z){
-        Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+        Transform posPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         float playerX = (float)Math.Round(posPlayer.position.x);
         float playerZ = (float)Math.Round(posPlayer.position.z);
 
@@ -208,8 +208,8 @@ public class GameManager : MonoBehaviour{
     void checkExplosionEnemy(float X, float Z){
         for(int x = 0; x < enemies.Count; x++){
             if(enemies[x] != null){
-                float enemyX = (float)Math.Round(enemies[x].transform.position.x);
-                float enemyZ = (float)Math.Round(enemies[x].transform.position.z);
+                float enemyX = (float)Math.Round(enemies[x].GetComponent<Transform>().position.x);
+                float enemyZ = (float)Math.Round(enemies[x].GetComponent<Transform>().position.z);
 
                 if(enemyX == X && enemyZ == Z){
                     Destroy(enemies[x]);
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour{
 
     void UpdatePowerUps(){
         if(powerUps.Count != 0){
-            Transform posPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+            Transform posPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
             float playerX = (float)Math.Round(posPlayer.position.x);
             float playerZ = (float)Math.Round(posPlayer.position.z);
 
@@ -260,7 +260,7 @@ public class GameManager : MonoBehaviour{
         if(num <= 1){
             if(boxs != null){
                 for(int x = 0; x < boxs.Count && !occuped; x++){
-                    if(boxs[x].transform.position.x == randX && boxs[x].transform.position.z == randZ){
+                    if(boxs[x].GetComponent<Transform>().position.x == randX && boxs[x].GetComponent<Transform>().position.z == randZ){
                         occuped = true;
                     }
                 }
