@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour{
-    Text text;
+    private Text text;
 
     void Start() {
         text = GetComponent<Text>();

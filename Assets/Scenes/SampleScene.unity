@@ -28594,15 +28594,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df09743c19f528340a8cbd1adf1af374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bomb: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
-  fire: {fileID: 100000, guid: d268d4afefde4f34d89cb3dbd1a4ba4d, type: 3}
-  pause: {fileID: 1232125640}
-  win: {fileID: 1285401904}
-  lose: {fileID: 980099384}
-  timer: 60
-  distance: 1
+  bombPrefab: {fileID: 1818861082154570, guid: 5e45c8f884f6d124ea0499aae7fdbec8, type: 3}
+  firePrefab: {fileID: 100000, guid: d268d4afefde4f34d89cb3dbd1a4ba4d, type: 3}
+  pauseMenuCanvas: {fileID: 1232125640}
+  winScreenCanvas: {fileID: 1285401904}
+  loseScreenCanvas: {fileID: 980099384}
+  gameCountdown: 60
+  bombRadius: 1
   score: 0
-  enemies: []
+  backgroundMusic: {fileID: 1237439351}
+  explosionAudioSource: {fileID: 1237439352}
 --- !u!4 &1237439350
 Transform:
   m_ObjectHideFlags: 0
@@ -35817,6 +35818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881652dd703213d48a4984dcbcedc60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerType: 1
   obj: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
   position: {fileID: 1550474461}
 --- !u!1001 &1558460391
@@ -36580,6 +36582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881652dd703213d48a4984dcbcedc60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerType: 0
   obj: {fileID: 3541754002163558908, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
   position: {fileID: 1616973858}
 --- !u!4 &1616973858
@@ -42782,6 +42785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881652dd703213d48a4984dcbcedc60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerType: 1
   obj: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
   position: {fileID: 1897476633}
 --- !u!1001 &1898234130

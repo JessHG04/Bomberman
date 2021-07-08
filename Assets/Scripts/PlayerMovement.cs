@@ -6,9 +6,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour{
     private NavMeshAgent agent;
     private Animator anim;
-    public float Speed = 0.5f;
-    
-    
+    private float Speed = 0.5f;
     
     void Start(){
         agent = this.GetComponent<NavMeshAgent>();

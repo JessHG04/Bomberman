@@ -5,9 +5,9 @@ using UnityEngine.AI;
 using System;
 
 public class Enemy : MonoBehaviour{
-    GameObject gameManager;
-    bool canAttack = true;
-    GameObject player;
+    private GameObject gameManager;
+    private bool canAttack = true;
+    private GameObject player;
     private NavMeshAgent agentEnemy;
     //private Animator anim;
     void Start(){
