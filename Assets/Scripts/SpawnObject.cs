@@ -12,6 +12,7 @@ public class SpawnObject : MonoBehaviour{
     public SpawnerType spawnerType;
     public GameObject obj;
     public Transform position;
+    public Transform pTransform;
 
     public static event EventHandler<SpawnerEvData> ObjectSpawned;
 
@@ -19,6 +20,7 @@ public class SpawnObject : MonoBehaviour{
         position = this.GetComponent<Transform>();
         var go = Instantiate(obj, position);
         OnObjectSpawned(new SpawnerEvData(spawnerType, go));
+        go.GetComponent<Enemy>().PlayerTransform = pTransform;
     }
 
     private static void OnObjectSpawned(SpawnerEvData evtData){

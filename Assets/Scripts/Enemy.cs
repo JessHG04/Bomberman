@@ -5,35 +5,36 @@ using UnityEngine.AI;
 using System;
 
 public class Enemy : MonoBehaviour{
-    private GameObject gameManager;
+    private GameManager gameManager;
     private bool canAttack = true;
-    private GameObject player;
     private NavMeshAgent agentEnemy;
-    //private Animator anim;
+    private Transform playerTransform;
+    public Transform PlayerTransform { private get => playerTransform; set => playerTransform = value; }
+
     void Start(){
-        gameManager = GameObject.Find("GameManager");
         agentEnemy = this.GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    void Update(){
-        float distance = Vector3.Distance(agentEnemy.nextPosition, player.transform.position);
-        agentEnemy.SetDestination(player.transform.position);
+    public void Update(){
+        float distance = Vector3.Distance(agentEnemy.nextPosition, PlayerTransform.position);
+        agentEnemy.SetDestination(PlayerTransform.position);
 
-        if(agentEnemy.pathStatus == NavMeshPathStatus.PathComplete && distance < 2 && canAttack){
+        if(canAttack){
             float bombX = (float)Math.Round(agentEnemy.nextPosition.x);
             float bombZ = (float)Math.Round(agentEnemy.nextPosition.z);
-            gameManager.GetComponent<GameManager>().enemyBomb(bombX, bombZ);
+            gameManager.OnSpawnBomb(new Vector3(bombX, 0, bombZ));
             canAttack = false;
             Invoke("attackAgain", 3f);
         }
-        if(agentEnemy.pathStatus == NavMeshPathStatus.PathPartial && canAttack){
+        /*
+        if(agentEnemy.pathStatus == NavMeshPathStatus.PathPartial && distance < 2&& canAttack){
             float bombX = (float)Math.Round(agentEnemy.nextPosition.x);
             float bombZ = (float)Math.Round(agentEnemy.nextPosition.z);
-            gameManager.GetComponent<GameManager>().enemyBomb(bombX, bombZ);
+            //gameManager.GetComponent<GameManager>().enemyBomb(bombX, bombZ);
             canAttack = false;
             Invoke("attackAgain", 3f);
-        }
+        }*/
     }
 
     void attackAgain(){
