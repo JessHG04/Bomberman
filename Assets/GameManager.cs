@@ -123,8 +123,10 @@ public class GameManager : MonoBehaviour{
     public void OnSpawnBomb(Vector3 position){
         SpawnBomb?.Invoke(this, position);
     }
+
     #endregion
 
+    #region Initializer
     private void InitializeBoxes(){
         boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
     }
@@ -136,6 +138,7 @@ public class GameManager : MonoBehaviour{
         }
     }
     
+    #endregion
     public void PutBomb(Vector3 position){
         var bombX = (float)Math.Round(position.x);
         var bombY = (float)Math.Round(position.y);
@@ -331,11 +334,11 @@ public class GameManager : MonoBehaviour{
             }
         }
     }
-
+    
+    #region RandomBombs
     void randomAgain(){
         random = false;
     }
-
     void RandomBomb(){
         int num = Random.Range(0, 100);
         int randX = Random.Range(-11, 11);
@@ -363,6 +366,8 @@ public class GameManager : MonoBehaviour{
             }
         }
     }
+
+    #endregion
 
     #region PauseMenu
     void Pause(){
