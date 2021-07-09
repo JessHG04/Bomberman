@@ -87,12 +87,12 @@ public class GameManager : MonoBehaviour{
 
     #region Utility Methods
 
+    #region Events
     private void SpawnObjectOnObjectSpawned(object sender, SpawnerEvData e){
         //Debug.LogWarning($"He spawneado un objeto de tipo {e.type}");
         if (e.type == SpawnObject.SpawnerType.Enemy){
             enemyList.Add(e.entityGO);
         }
-        
     }
     
     private void OnTimerEndedBehaviour(object sender, TimerEventData ted){
@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour{
     }
 
     private void OnGameFinished(object sender, bool win){
-        //Debug.LogWarning("Ganar la partida: " + win);
         if(win){
             winScreenCanvas.gameObject.SetActive(true);
         }else{
@@ -114,6 +113,18 @@ public class GameManager : MonoBehaviour{
         PutBomb(position);
     }
     
+    protected void OnTimerEnded(){
+        TimerEnded?.Invoke(this, new TimerEventData(gameCountdown));
+    }
+
+    protected void OnFinishGame(bool state){
+        FinishGame?.Invoke(this, state);
+    }
+    public void OnSpawnBomb(Vector3 position){
+        SpawnBomb?.Invoke(this, position);
+    }
+    #endregion
+
     private void InitializeBoxes(){
         boxs = GameObject.FindGameObjectsWithTag("Box").ToList();
     }
@@ -384,17 +395,6 @@ public class GameManager : MonoBehaviour{
     }
     
     #endregion
-
-    protected void OnTimerEnded(){
-        TimerEnded?.Invoke(this, new TimerEventData(gameCountdown));
-    }
-
-    protected void OnFinishGame(bool state){
-        FinishGame?.Invoke(this, state);
-    }
-    public void OnSpawnBomb(Vector3 position){
-        SpawnBomb?.Invoke(this, position);
-    }
 
     #endregion
 }
