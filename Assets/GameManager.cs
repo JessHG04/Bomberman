@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour{
 
     #region Events
     private event EventHandler<TimerEventData> TimerEnded;
-    //private event EventHandler<FinishGameEventData> FinishGame;
+    private event EventHandler<bool> FinishGame;
     
     #endregion
 
@@ -49,11 +49,14 @@ public class GameManager : MonoBehaviour{
     private void OnEnable(){
         TimerEnded += OnTimerEndedBehaviour;
         SpawnObject.ObjectSpawned += SpawnObjectOnObjectSpawned;
+        FinishGame += OnGameFinished;
+
     }
     
     private void OnDisable(){
         TimerEnded -= OnTimerEndedBehaviour;
         SpawnObject.ObjectSpawned -= SpawnObjectOnObjectSpawned;
+        FinishGame -= OnGameFinished;
     }
 
     public void Start(){
@@ -93,8 +96,18 @@ public class GameManager : MonoBehaviour{
     }
     
     private void OnTimerEndedBehaviour(object sender, TimerEventData ted){
-        Debug.LogWarning($"El valor que se le pasa al evento es, para el timer {ted.totaltime}, para las vidas {ted.lifes}, y el nombre del prefab a instanciar e {ted.bombPrefab.name}");
+        //Debug.LogWarning($"El valor que se le pasa al evento es, para el timer {ted.totaltime}, para las vidas {ted.lifes}, y el nombre del prefab a instanciar e {ted.bombPrefab.name}");
         winScreenCanvas.gameObject.SetActive(true);
+        Invoke(nameof(goMenu), 0.5f);
+    }
+
+    private void OnGameFinished(object sender, bool win){
+        //Debug.LogWarning("Ganar la partida: " + win);
+        if(win){
+            winScreenCanvas.gameObject.SetActive(true);
+        }else{
+            loseScreenCanvas.gameObject.SetActive(true);
+        }
         Invoke(nameof(goMenu), 0.5f);
     }
     
@@ -110,7 +123,7 @@ public class GameManager : MonoBehaviour{
     }
     
     public void PutBomb(){
-        Debug.Log("PutBomb");
+        //Debug.Log("PutBomb");
         var bombX = (float)Math.Round(_playerTransform.position.x);
         var bombZ = (float)Math.Round(_playerTransform.position.z);
         var bombs = GameObject.FindGameObjectsWithTag("Bomb");
@@ -242,7 +255,8 @@ public class GameManager : MonoBehaviour{
         if(playerX == X && playerZ == Z){
             //Debug.Log("X: " + X + " " + playerX);
             //Debug.Log("Z: " + Z + " " + playerZ);
-            Debug.Log("me muero");
+            //Debug.Log("me muero");
+            OnFinishGame(false);
             /* LANZAR EVENTO DE LOSE */
             //loseScreenCanvas.gameObject.SetActive(true);
             //Invoke(nameof(goMenu), 2.0f);
@@ -264,9 +278,8 @@ public class GameManager : MonoBehaviour{
                     //Debug.LogWarning($"{enemyList.Capacity} || {enemyList.Count}");
                     
                     if(enemyList.Count <= 0){
-                        winScreenCanvas.gameObject.SetActive(true);
+                        OnFinishGame(true);
                     }
-                    Invoke(nameof(goMenu), 2.0f);
                 }
             }
         }
@@ -367,6 +380,10 @@ public class GameManager : MonoBehaviour{
 
     protected void OnTimerEnded(){
         TimerEnded?.Invoke(this, new TimerEventData(15.2f,23, bombPrefab));
+    }
+
+    protected void OnFinishGame(bool state){
+        FinishGame?.Invoke(this, state);
     }
 
     #endregion
