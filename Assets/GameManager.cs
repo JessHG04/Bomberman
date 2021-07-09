@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour{
     private List<GameObject> boxs = new List<GameObject>();
     private List<GameObject> powerUps = new List<GameObject>();
     private bool random;
-    private List<GameObject> enemyList = new List<GameObject>();
+    public List<GameObject> enemyList = new List<GameObject>();
     private List<GameObject> bombs = new List<GameObject>();
     private Transform _playerTransform;
                         
@@ -276,17 +276,18 @@ public class GameManager : MonoBehaviour{
                     /* COMPROBAR SI LA LISTA ESTA VACIA */
                     /* SI ESTA VACIA, LANZO EVWENTO DE FIN DE PARTIDA */
                     Destroy(enemyList[x]);
+                    enemyList.Remove(enemyList[x]);
                     //Debug.LogWarning("He matado a: " + enemyList[x].name);
                     //Debug.LogWarning("Lista.count" + enemyList.Count);
                     //Debug.LogError("SE HA MUERTO UN ENEMIGO");
                     //Debug.LogWarning($"{enemyList.Capacity} || {enemyList.Count}");
-                    
                     if(enemyList.Count <= 0){
                         OnFinishGame(true);
                     }
                 }
             }
         }
+        Debug.Log(enemyList.Count);
     }
 
     void UpdatePowerUps(){

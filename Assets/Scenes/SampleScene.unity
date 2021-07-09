@@ -28661,11 +28661,12 @@ MonoBehaviour:
   pauseMenuCanvas: {fileID: 1232125640}
   winScreenCanvas: {fileID: 1285401904}
   loseScreenCanvas: {fileID: 980099384}
-  gameCountdown: 60
+  gameCountdown: 100000
   bombRadius: 1
   score: 0
   backgroundMusic: {fileID: 1237439351}
   explosionAudioSource: {fileID: 1237439352}
+  enemyList: []
 --- !u!4 &1237439350
 Transform:
   m_ObjectHideFlags: 0
