@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour{
     private List<GameObject> boxs = new List<GameObject>();
     private List<GameObject> powerUps = new List<GameObject>();
     private bool random;
-    public List<GameObject> enemyList = new List<GameObject>();
+    private List<GameObject> enemyList = new List<GameObject>();
     private List<GameObject> bombs = new List<GameObject>();
     private Transform _playerTransform;
                         
@@ -301,7 +301,7 @@ public class GameManager : MonoBehaviour{
                 }
             }
         }
-        Debug.Log(enemyList.Count);
+        //Debug.Log(enemyList.Count);
     }
 
     void UpdatePowerUps(){
